@@ -90,30 +90,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
         if (c.getCount() < 0) {
             return false;
         }
-         mAdapter = new CustomAdapter(this, c, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView textView = (TextView) view;
-                 String name = textView.getText().toString();
-                getWeatherForCity(name);
-                Utils.hideSoftKeypad(MainActivity.this);
-            }
-
-        }, new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                TextView textView = (TextView) v;
-                 String cityName = textView.getText().toString();
-                showDeleteDialog(cityName);
-                return true;
-            }
-        });
+         mAdapter = new CustomAdapter(this, c,onClickListener, onLongClickListener);
         searchView.setSuggestionsAdapter(mAdapter);
         searchView.setOnCloseListener(this);
         searchView.setOnQueryTextListener(this);
 
         return true;
     }
+
+
 
     // Showing Delete the list
 
@@ -129,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
             public void onClick(DialogInterface dialogInterface, int i) {
                 city.setCity(cityValue);
                 dbHandler.deleteCity(city);
+                updateList();
             }});
         deleteDialog.create();
         deleteDialog.show();
@@ -148,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
             return true;
         }else if(item.getItemId() == R.id.contactus){
             WebView wb = new WebView(this);
-            wb.loadUrl("file:///assets/Contact.html");
+            wb.loadUrl("file:///android_asset/Contact.html");
             wb.getSettings().setJavaScriptEnabled(true);
             setContentView(wb);
         }
@@ -237,8 +223,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        city.setCity(query);
+        city.setCity(query);/*
+        Cursor cursor = dbHandler.getAllCity();
+        for(int i =0;i<=cursor.getCount();i++){
+            String cityName = cursor.getString(cursor.getColumnIndex("city"));
+        }*/
+
+
         dbHandler.addCity(city);
+        updateList();
         getWeatherForCity(query);
         Utils.hideSoftKeypad(this);
         return true;
@@ -262,5 +255,41 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    // Onclick Method for fetching weather Information
+
+    private View.OnClickListener onClickListener =  new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextView textView = (TextView) view;
+            String name = textView.getText().toString();
+            getWeatherForCity(name);
+            Utils.hideSoftKeypad(MainActivity.this);
+        }
+
+    };
+
+    // OnLongclick Method for fetching weather Information
+
+     private View.OnLongClickListener onLongClickListener  = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            TextView textView = (TextView) v;
+            String cityName = textView.getText().toString();
+            showDeleteDialog(cityName);
+            return true;
+        }
+    };
+
+    // Update list for  fetching data
+
+    private void updateList(){
+        Cursor c = dbHandler.getAllCity();
+        if (c.getCount() < 0) {
+            return ;
+        }
+        mAdapter = new CustomAdapter(this, c, onClickListener,onLongClickListener);
+        searchView.setSuggestionsAdapter(mAdapter);
     }
 }
