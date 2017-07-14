@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/actionCitySearch"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always"
+        android:title="@string/search_city_hint"/>
+
+    <item android:id="@+id/actionRefresh"
+          app:showAsAction="always"
+          android:icon="@android:drawable/stat_notify_sync_noanim"
+          android:title="@string/text_refresh" />
+    <item android:id="@+id/contactus"
+          android:icon="@android:drawable/btn_dropdown"
+          android:title="@string/text_contact" />
+</menu>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CityWeather</string>
+    <string name="city_hint">Enter City</string>
+    <string name="text_refresh">Refresh</string>
+    <string name="text_contact">ContactUS</string>
+    <string name="search_city_hint">Search City</string>
+    <string name="city_dialog_title">Set City Preference</string>
+    <string name="button_set">Set</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="degree_celsius">%.2f \u00b0 C</string>
+    <string name="getting_update">Updating content..</string>
+    <string name="error_msg">No data found!</string>
+</resources>
