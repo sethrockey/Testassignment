@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnClos
         }else if(item.getItemId() == R.id.contactus){
             WebView wb = new WebView(this);
             wb.loadUrl("file:///assets/Contact.html");
+            wb.getSettings().setJavaScriptEnabled(true);
             setContentView(wb);
         }
 
